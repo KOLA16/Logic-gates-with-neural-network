@@ -1,0 +1,1 @@
+# XNOR-operator
