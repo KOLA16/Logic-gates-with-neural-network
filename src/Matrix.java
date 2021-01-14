@@ -64,8 +64,6 @@ public class Matrix {
 		}
 	}
 	
-	
-	
 	public void multiply(double scalar) {
 		for (int i = 0; i <= this.rows - 1; i++) {
 			for (int j = 0; j <= this.columns - 1; j++) {
@@ -90,5 +88,20 @@ public class Matrix {
 			return null;
 		}
 	}
-		
+	
+	public static Matrix multiplyElementWise(Matrix a, Matrix b) {
+		if (a.rows == b.rows && a.columns == b.columns) {
+			Matrix product = new Matrix(a.rows, b.columns);
+			for (int i = 0; i <= a.rows - 1; i++) {
+				for (int j = 0; j <= a.columns - 1; j++) {
+						product.data[i][j] = a.data[i][j] * b.data[i][j];
+				}
+			}
+			return product;
+		} else {
+			System.out.println("INCORRECT DIMENSIONS");
+			return null;
+		}
+	}
+			
 }
