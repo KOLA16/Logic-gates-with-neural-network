@@ -40,5 +40,30 @@ public class Matrix {
 			return null;
 		}
 	}
+	
+	public void multiply(double scalar) {
+		for (int i = 0; i <= this.rows - 1; i++) {
+			for (int j = 0; j <= this.columns - 1; j++) {
+				this.data[i][j] *= scalar;
+			}
+		}
+	}
+
+	public static Matrix multiply(Matrix a, Matrix b) {
+		if (a.columns == b.rows) {
+			Matrix product = new Matrix(a.rows, b.columns);
+			for (int i = 0; i <= a.rows - 1; i++) {
+				for (int j = 0; j <= b.columns - 1; j++) {
+					for (int k = 0; k <= a.columns - 1; k++) {
+						product.data[i][j] += a.data[i][k] * b.data[k][j];
+					}
+				}
+			}
+			return product;
+		} else {
+			System.out.println("INCORRECT DIMENSIONS");
+			return null;
+		}
+	}
 
 }
