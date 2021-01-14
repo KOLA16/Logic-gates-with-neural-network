@@ -8,9 +8,9 @@
 
 public class Matrix {
 
-	private int rows;
+    private int rows;
 	private int columns;
-	private double[][] data;
+	double[][] data;
 
 	public Matrix(int rows, int columns) {
 		this.rows = rows;
@@ -24,7 +24,7 @@ public class Matrix {
 				this.data[i][j] += scalar;
 			}
 		}
-    }
+	}
 
 	public static Matrix add(Matrix a, Matrix b) {
 		if (a.rows == b.rows && a.columns == b.columns) {
@@ -40,15 +40,15 @@ public class Matrix {
 			return null;
 		}
 	}
-	
+
 	public void subtract(double scalar) {
 		for (int i = 0; i <= this.rows - 1; i++) {
 			for (int j = 0; j <= this.columns - 1; j++) {
 				this.data[i][j] -= scalar;
 			}
 		}
-    }
-	
+	}
+
 	public static Matrix subtract(Matrix a, Matrix b) {
 		if (a.rows == b.rows && a.columns == b.columns) {
 			Matrix difference = new Matrix(a.rows, a.columns);
@@ -63,7 +63,7 @@ public class Matrix {
 			return null;
 		}
 	}
-	
+
 	public void multiply(double scalar) {
 		for (int i = 0; i <= this.rows - 1; i++) {
 			for (int j = 0; j <= this.columns - 1; j++) {
@@ -88,13 +88,13 @@ public class Matrix {
 			return null;
 		}
 	}
-	
+
 	public static Matrix multiplyElementWise(Matrix a, Matrix b) {
 		if (a.rows == b.rows && a.columns == b.columns) {
 			Matrix product = new Matrix(a.rows, b.columns);
 			for (int i = 0; i <= a.rows - 1; i++) {
 				for (int j = 0; j <= a.columns - 1; j++) {
-						product.data[i][j] = a.data[i][j] * b.data[i][j];
+					product.data[i][j] = a.data[i][j] * b.data[i][j];
 				}
 			}
 			return product;
@@ -103,15 +103,30 @@ public class Matrix {
 			return null;
 		}
 	}
-	
+
 	public void transpose() {
 		Matrix temp = new Matrix(this.columns, this.rows);
-		for (int i=0; i<=this.rows-1; i++) {
-			for (int j=0; j<=this.columns-1; j++) {
+		for (int i = 0; i <= this.rows - 1; i++) {
+			for (int j = 0; j <= this.columns - 1; j++) {
 				temp.data[j][i] = this.data[i][j];
 			}
 		}
 		this.data = temp.data;
 	}
-					
+	
+	public static double sigmoid(double z) {
+		return 1/(1+Math.exp(-z));
+	}
+	
+	public static Matrix sigmoid(Matrix a) {
+		Matrix temp = new Matrix(a.rows, a.columns);
+		for (int i=0; i<=a.rows-1; i++) {
+			for (int j=0; j<=a.columns-1; j++) {
+				temp.data[i][j] = 1/(1+Math.exp(-a.data[i][j]));
+			}
+		}
+		return temp;
+	}
+		
+
 }
