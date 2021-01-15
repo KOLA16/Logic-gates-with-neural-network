@@ -17,6 +17,18 @@ public class Matrix {
 		this.data = new double[rows][columns];
 	}
 
+	public static Matrix toMatrix(double[][] arr) {
+		Matrix matrix = new Matrix(arr.length, arr[0].length);
+		matrix.data = arr;
+		return matrix;
+	}
+	
+	public static Matrix toMatrix(double[] arr) {
+		Matrix matrix = new Matrix(1, arr.length);
+		matrix.data[0] = arr;
+		return matrix;
+	}
+
 	public void add(double scalar) {
 		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < this.columns; j++) {
