@@ -115,7 +115,7 @@ public class Matrix {
 		}
 	}
 
-	public void transpose() {
+	public Matrix transpose() {
 		Matrix temp = new Matrix(this.columns, this.rows);
 		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < this.columns; j++) {
@@ -123,6 +123,7 @@ public class Matrix {
 			}
 		}
 		this.data = temp.data;
+		return this;
 	}
 
 	public static double sigmoid(double z) {
