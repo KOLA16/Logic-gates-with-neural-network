@@ -21,11 +21,11 @@ public class NeuralNetwork {
 		this.hiddenLayerSize = hiddenLayerSize;
 	}
 
-	public Map<String, Matrix> initializeParameters(int inputSize, int hiddenLayerSize, int outputLayerSize) {
+	public Map<String, Matrix> initializeParameters(int inputSize, int hiddenLayerSize, int outputLayerSize, int m) {
 		Matrix W1 = new Matrix(hiddenLayerSize, inputSize);
-		Matrix b1 = new Matrix(hiddenLayerSize, 1); // initialized to 0
+		Matrix b1 = new Matrix(hiddenLayerSize, m); // initialized to 0
 		Matrix W2 = new Matrix(outputLayerSize, hiddenLayerSize);
-		Matrix b2 = new Matrix(outputLayerSize, 1); // initialized to 0
+		Matrix b2 = new Matrix(outputLayerSize, m); // initialized to 0
 
 		// initialize parameters W1 and W2 to random small values
 		for (int i = 0; i < W1.rows; i++) {
@@ -48,6 +48,29 @@ public class NeuralNetwork {
 		parameters.put("b2", b2);
 
 		return parameters;
+	}
+
+	public Map<String, Matrix> forwardPropagation(Matrix X, Map<String, Matrix> parameters) {
+		// Retrive each parameter from Map 'parameters'
+		Matrix W1 = parameters.get("W1");
+		Matrix b1 = parameters.get("b1");
+		Matrix W2 = parameters.get("W2");
+		Matrix b2 = parameters.get("b2");
+
+		// Implement forward propagation
+		Matrix Z1 = Matrix.add(Matrix.multiply(W1, X), b1);
+		Matrix A1 = Matrix.sigmoid(Z1);
+		Matrix Z2 = Matrix.add(Matrix.multiply(W2, A1), b2);
+		Matrix A2 = Matrix.sigmoid(Z2);
+
+		Map<String, Matrix> cache = new HashMap<>();
+
+		cache.put("Z1", Z1);
+		cache.put("A1", A1);
+		cache.put("Z2", A2);
+		cache.put("A2", A2);
+
+		return cache;
 	}
 
 }
