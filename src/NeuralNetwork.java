@@ -1,41 +1,53 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * NeuralNetwork.java
  * 
  * A class to represent a neural network
- *  
+ * 
  *
  */
 
 public class NeuralNetwork {
 
-    private Matrix input;
-	private Matrix[] weights;
-	private int hiddenLayers;
+	private Matrix X;
+	private Matrix Y;
+	private int hiddenLayerSize;
 
-	public NeuralNetwork(Matrix input, Matrix[] weights, int hiddenLayers) {
-		this.input = input;
-		this.weights = weights;
-		this.hiddenLayers = hiddenLayers;
+	public NeuralNetwork(Matrix X, Matrix Y, int hiddenLayerSize) {
+		this.X = X;
+		this.Y = Y;
+		this.hiddenLayerSize = hiddenLayerSize;
 	}
 
-	public double[][] forwardPropagation() {
-		Matrix activations = this.input;
-		for (int i = 0; i <= this.hiddenLayers; i++) {
-			Matrix z = Matrix.multiply(this.weights[i], activations);
-			// Add a bias unit for the pre-output layer
-			if (i < this.hiddenLayers) {  
-				activations = new Matrix(weights[i].rows + 1, 1);
-				activations.data[0][0] = 1; 
-				// Copy a sigmoid matrix to activations matrix 
-				// activations.data[0][0] = 1 (bias unit),
-				// activations.data[1...data.rows-1][0] = sigmoid value for each unit in the layer
-				System.arraycopy(Matrix.sigmoid(z).data, 0, activations.data, 1, Matrix.sigmoid(z).rows); 																							
-			} else {
-				activations = Matrix.sigmoid(z);
-			}
+	public Map<String, Matrix> initializeParameters(int inputSize, int hiddenLayerSize, int outputLayerSize) {
+		Matrix W1 = new Matrix(hiddenLayerSize, inputSize);
+		Matrix b1 = new Matrix(hiddenLayerSize, 1); // initialized to 0
+		Matrix W2 = new Matrix(outputLayerSize, hiddenLayerSize);
+		Matrix b2 = new Matrix(outputLayerSize, 1); // initialized to 0
 
+		// initialize parameters W1 and W2 to random small values
+		for (int i = 0; i < W1.rows; i++) {
+			for (int j = 0; j < W1.columns; j++) {
+				W1.data[i][j] = Math.random() * 0.01;
+			}
 		}
-		return activations.data;
+
+		for (int i = 0; i < W2.rows; i++) {
+			for (int j = 0; j < W2.columns; j++) {
+				W2.data[i][j] = Math.random() * 0.01;
+			}
+		}
+
+		Map<String, Matrix> parameters = new HashMap<>();
+
+		parameters.put("W1", W1);
+		parameters.put("b1", b1);
+		parameters.put("W2", W2);
+		parameters.put("b2", b2);
+
+		return parameters;
 	}
 
 }
