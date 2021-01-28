@@ -139,5 +139,15 @@ public class Matrix {
 		}
 		return temp;
 	}
+	
+	public static Matrix log(Matrix a) {
+		Matrix temp = new Matrix(a.rows, a.columns);
+		for (int i = 0; i < a.rows; i++) {
+			for (int j = 0; j < a.columns; j++) {
+				temp.data[i][j] = Math.log(a.data[i][j]);
+			}
+		}
+		return temp;
+	}
 
 }
