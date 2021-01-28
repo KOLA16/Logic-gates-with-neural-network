@@ -153,13 +153,46 @@ public class Matrix {
 	}
 	
 	public static double sum(Matrix a) {
-		double sum = 0;
+		double temp = 0;
 		for (int i = 0; i < a.rows; i++) {
 			for (int j = 0; j < a.columns; j++) {
-				sum += a.data[i][j];
+				temp += a.data[i][j];
 			}
 		}
-		return sum;
+		return temp;
+	}
+	
+	public static Matrix sum(Matrix a, int axis) {
+		Matrix temp = new Matrix(1,1);
+		
+		if (axis == 0) { // sum values in each column
+			
+			temp = new Matrix(1, a.columns);
+			double sumCol;
+			
+			for(int i = 0; i < a.columns; i++){ 
+				sumCol = 0;
+	            for(int j = 0; j < a.rows; j++){  
+	                sumCol += a.data[j][i];  
+	            }  
+	            temp.data[0][i] = sumCol; 
+	        } 
+			
+		} else if (axis == 1) { // sum values in each row
+			
+			temp = new Matrix(a.rows, 1);
+			double sumRow;
+			
+			for(int i = 0; i < a.rows; i++){  
+				sumRow = 0;
+		        for(int j = 0; j < a.columns; j++){  
+		            sumRow += a.data[i][j];  
+		        }  
+		        temp.data[i][0] = sumRow; 
+		    }  
+		}
+		
+		return temp;
 	}
 
 }
