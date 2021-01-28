@@ -149,5 +149,15 @@ public class Matrix {
 		}
 		return temp;
 	}
+	
+	public static double sum(Matrix a) {
+		double sum = 0;
+		for (int i = 0; i < a.rows; i++) {
+			for (int j = 0; j < a.columns; j++) {
+				sum += a.data[i][j];
+			}
+		}
+		return sum;
+	}
 
 }
