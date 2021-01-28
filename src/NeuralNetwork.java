@@ -73,7 +73,7 @@ public class NeuralNetwork {
 		return cache;
 	}
 	
-	public double computeCost(Matrix A2, Matrix Y, Map<String, Matrix> parameters) {
+	public double computeCost(Matrix A2, Matrix Y) {
 		
 		int m = Y.columns; // number of examples
 		Matrix ones = new Matrix(Y.rows, Y.columns); 
@@ -90,5 +90,6 @@ public class NeuralNetwork {
 		
 		return cost;
 	}
+	
 
 }
