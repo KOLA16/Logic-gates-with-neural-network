@@ -75,12 +75,14 @@ public class Matrix {
 		}
 	}
 
-	public void multiply(double scalar) {
-		for (int i = 0; i < this.rows; i++) {
-			for (int j = 0; j < this.columns; j++) {
-				this.data[i][j] *= scalar;
+	public static Matrix multiply(double scalar, Matrix a) {
+		Matrix temp = new Matrix(a.rows, a.columns);
+		for (int i = 0; i < a.rows; i++) {
+			for (int j = 0; j < a.columns; j++) {
+				temp.data[i][j] = a.data[i][j] * scalar;
 			}
 		}
+		return temp;
 	}
 
 	public static Matrix multiply(Matrix a, Matrix b) {
