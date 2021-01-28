@@ -72,5 +72,23 @@ public class NeuralNetwork {
 
 		return cache;
 	}
+	
+	public double computeCost(Matrix A2, Matrix Y, Map<String, Matrix> parameters) {
+		
+		int m = Y.columns; // number of examples
+		Matrix ones = new Matrix(Y.rows, Y.columns); 
+		
+		for (int i = 0; i < ones.rows; i++) {
+			for (int j = 0; j < ones.columns; j++) {
+				ones.data[i][j] = 1;
+			}
+		}
+		
+		Matrix logprob1 = Matrix.multiplyElementWise(Matrix.log(A2), Y); // log(A2) * Y
+		Matrix logprob2 = Matrix.multiplyElementWise(Matrix.subtract(ones, Y), Matrix.log(Matrix.subtract(ones, A2))); // (1 - Y) * log(1 - A2)
+		double cost = -(1/m) * Matrix.sum(Matrix.add(logprob1, logprob2));
+		
+		return cost;
+	}
 
 }
