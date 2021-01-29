@@ -23,9 +23,9 @@ public class NeuralNetwork {
 
 	public Map<String, Matrix> initializeParameters(int inputSize, int hiddenLayerSize, int outputLayerSize, int m) {
 		Matrix W1 = new Matrix(hiddenLayerSize, inputSize);
-		Matrix b1 = new Matrix(hiddenLayerSize, m); // initialized to 0
+		Matrix b1 = new Matrix(hiddenLayerSize, 1); // initialized to 0
 		Matrix W2 = new Matrix(outputLayerSize, hiddenLayerSize);
-		Matrix b2 = new Matrix(outputLayerSize, m); // initialized to 0
+		Matrix b2 = new Matrix(outputLayerSize, 1); // initialized to 0
 
 		// initialize parameters W1 and W2 to random small values
 		for (int i = 0; i < W1.rows; i++) {
@@ -56,6 +56,25 @@ public class NeuralNetwork {
 		Matrix b1 = parameters.get("b1");
 		Matrix W2 = parameters.get("W2");
 		Matrix b2 = parameters.get("b2");
+		
+		// Add m-1 (m = number of training examples) columns to parameters b1 and b2 
+		// and fill them with values copied from the original column
+		// It allows us to broadcast b1 and b2 across larger Matrices and perform vectorized
+		// forward propagation on all the training examples
+		Matrix b1m = new Matrix(b1.rows, X.columns);
+		Matrix b2m = new Matrix(b2.rows, X.columns);
+		
+		for (int i = 0; i < b1m.rows; i++) {
+			for (int j = 0; j < b1m.columns; j++) {
+				b1m.data[i][j] = b1.data[i][0];
+			}
+		}
+		
+		for (int i = 0; i < b2m.rows; i++) {
+			for (int j = 0; j < b2m.columns; j++) {
+				b2m.data[i][j] = b2.data[i][0];
+			}
+		}
 
 		// Implement forward propagation
 		// Z1 = W1 o X + b1
@@ -138,6 +157,32 @@ public class NeuralNetwork {
 		gradients.put("db2", db2);
 		
 		return gradients;	
+    }
+    
+    public Map<String, Matrix> updateParameters(Map<String, Matrix> parameters, Map<String, Matrix> gradients, double learningRate){
+    	
+    	Matrix W1 = parameters.get("W1");
+    	Matrix b1 = parameters.get("b1");
+    	Matrix W2 = parameters.get("W2");
+    	Matrix b2 = parameters.get("b2");
+    	
+    	Matrix dW1 = gradients.get("dW1");
+    	Matrix db1 = gradients.get("db1");
+    	Matrix dW2 = gradients.get("dW2");
+    	Matrix db2 = gradients.get("db2");
+    	
+    	W1 = Matrix.subtract(W1, Matrix.multiply(learningRate, dW1));
+    	b1 = Matrix.subtract(b1, Matrix.multiply(learningRate, db1));
+    	W2 = Matrix.subtract(W2, Matrix.multiply(learningRate, dW2));
+    	b2 = Matrix.subtract(b2, Matrix.multiply(learningRate, db2));
+    	
+    	parameters.put("W1", W1);
+    	parameters.put("b1", b1);
+    	parameters.put("W2", W2);
+    	parameters.put("b2", b2);
+    	
+    	return parameters;
+    	
     }
     
 }
