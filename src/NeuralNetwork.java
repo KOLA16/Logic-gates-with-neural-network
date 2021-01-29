@@ -78,11 +78,11 @@ public class NeuralNetwork {
 
 		// Implement forward propagation
 		// Z1 = W1 o X + b1
-		Matrix Z1 = Matrix.add(Matrix.multiply(W1, X), b1);
+		Matrix Z1 = Matrix.add(Matrix.multiply(W1, X), b1m);
 		// A1 = sig(Z1)
 		Matrix A1 = Matrix.sigmoid(Z1);
 		// Z2 = W2 o A1 + b2
-		Matrix Z2 = Matrix.add(Matrix.multiply(W2, A1), b2);
+		Matrix Z2 = Matrix.add(Matrix.multiply(W2, A1), b2m);
 		// A2 = sig(Z2)
 		Matrix A2 = Matrix.sigmoid(Z2);
 
@@ -159,7 +159,7 @@ public class NeuralNetwork {
 		return gradients;	
     }
     
-    public Map<String, Matrix> updateParameters(Map<String, Matrix> parameters, Map<String, Matrix> gradients, double learningRate){
+    public Map<String, Matrix> updateParameters(Map<String, Matrix> parameters, Map<String, Matrix> gradients, double learningRate) {
     	
     	Matrix W1 = parameters.get("W1");
     	Matrix b1 = parameters.get("b1");
@@ -171,9 +171,13 @@ public class NeuralNetwork {
     	Matrix dW2 = gradients.get("dW2");
     	Matrix db2 = gradients.get("db2");
     	
+    	// W1 = W1 - learningRate * dW1
     	W1 = Matrix.subtract(W1, Matrix.multiply(learningRate, dW1));
+    	// b1 = b1 - learningRate * db1
     	b1 = Matrix.subtract(b1, Matrix.multiply(learningRate, db1));
+    	// W2 = W2 - learningRate * dW2
     	W2 = Matrix.subtract(W2, Matrix.multiply(learningRate, dW2));
+    	// b2 = b2 - learningRate * db2
     	b2 = Matrix.subtract(b2, Matrix.multiply(learningRate, db2));
     	
     	parameters.put("W1", W1);
