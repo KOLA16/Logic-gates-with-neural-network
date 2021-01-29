@@ -117,15 +117,14 @@ public class Matrix {
 		}
 	}
 
-	public Matrix transpose() {
-		Matrix temp = new Matrix(this.columns, this.rows);
-		for (int i = 0; i < this.rows; i++) {
-			for (int j = 0; j < this.columns; j++) {
-				temp.data[j][i] = this.data[i][j];
+	public static Matrix transpose(Matrix a) {
+		Matrix temp = new Matrix(a.columns, a.rows);
+		for (int i = 0; i < a.rows; i++) {
+			for (int j = 0; j < a.columns; j++) {
+				temp.data[j][i] = a.data[i][j];
 			}
 		}
-		this.data = temp.data;
-		return this;
+		return temp;
 	}
 
 	public static double sigmoid(double z) {

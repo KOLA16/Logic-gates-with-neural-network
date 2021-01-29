@@ -21,7 +21,7 @@ public class NeuralNetwork {
 		this.hiddenLayerSize = hiddenLayerSize;
 	}
 
-	public Map<String, Matrix> initializeParameters(int inputSize, int hiddenLayerSize, int outputLayerSize, int m) {
+	public Map<String, Matrix> initializeParameters(int inputSize, int hiddenLayerSize, int outputLayerSize) {
 		Matrix W1 = new Matrix(hiddenLayerSize, inputSize);
 		Matrix b1 = new Matrix(hiddenLayerSize, 1); // initialized to 0
 		Matrix W2 = new Matrix(outputLayerSize, hiddenLayerSize);
@@ -77,11 +77,11 @@ public class NeuralNetwork {
 		}
 
 		// Implement forward propagation
-		// Z1 = W1 o X + b1
+		// Z1 = W1 o X + b1m
 		Matrix Z1 = Matrix.add(Matrix.multiply(W1, X), b1m);
 		// A1 = sig(Z1)
 		Matrix A1 = Matrix.sigmoid(Z1);
-		// Z2 = W2 o A1 + b2
+		// Z2 = W2 o A1 + b2m
 		Matrix Z2 = Matrix.add(Matrix.multiply(W2, A1), b2m);
 		// A2 = sig(Z2)
 		Matrix A2 = Matrix.sigmoid(Z2);
@@ -129,7 +129,7 @@ public class NeuralNetwork {
     	Matrix A2 = cache.get("A2");
     	
     	// create matrix where each element = 1 (for further computations)
-        Matrix ones = new Matrix(A2.rows, A2.columns);
+        Matrix ones = new Matrix(A1.rows, A1.columns);
 		for (int i = 0; i < ones.rows; i++) {
 			for (int j = 0; j < ones.columns; j++) {
 				ones.data[i][j] = 1;
@@ -139,13 +139,13 @@ public class NeuralNetwork {
 		// dZ2 = A2 - Y
     	Matrix dZ2 = Matrix.subtract(A2, Y);
     	// dW2 = (1/m) * dZ2 o A1.T
-    	Matrix dW2 = Matrix.multiply(1/m, Matrix.multiply(dZ2, A1.transpose()));
+    	Matrix dW2 = Matrix.multiply(1/m, Matrix.multiply(dZ2, Matrix.transpose(A1)));
     	// db2 = (1/m) * columnVectorThatContainsSumOfEachRow(dZ2)
     	Matrix db2 = Matrix.multiply(1/m, Matrix.sum(dZ2, 1));
-    	// dZ1 = W2.T o dZ2 * A2 o (1 - A2)
-    	Matrix dZ1 = Matrix.multiplyElementWise(Matrix.multiply(W2.transpose(), dZ2), Matrix.multiply(A2, Matrix.subtract(ones, A2)));
+    	// dZ1 = W2.T o dZ2 * A2 * (1 - A2)
+    	Matrix dZ1 = Matrix.multiplyElementWise(Matrix.multiply(Matrix.transpose(W2), dZ2), Matrix.multiplyElementWise(A1, Matrix.subtract(ones, A1)));
     	// dW1 = (1/m) * dZ1 o X.T
-    	Matrix dW1 = Matrix.multiply(1/m, Matrix.multiply(dZ1, X.transpose()));
+    	Matrix dW1 = Matrix.multiply(1/m, Matrix.multiply(dZ1, Matrix.transpose(X)));
     	// db1 = (1/m) * columnVectorThatContainsSumOfEachRow(dZ1)
     	Matrix db1 = Matrix.multiply(1/m, Matrix.sum(dZ1, 1));
     	
@@ -186,7 +186,77 @@ public class NeuralNetwork {
     	parameters.put("b2", b2);
     	
     	return parameters;
-    	
     }
+    
+    public Map<String, Matrix> trainParameters(Matrix X, Matrix Y, int hiddenLayerSize, int iterations, double learningRate) {
+        // Input and output layer sizes
+    	int nX = X.rows;
+    	int nY = Y.rows;
+    	
+    	// Initialize parameters
+    	Map<String, Matrix> parameters = this.initializeParameters(nX, hiddenLayerSize, nY);
+    	
+    	// Gradient descent
+    	for (int i = 0; i <= iterations; i++) {
+    		// Forward propagation
+    		Map<String, Matrix> cache = this.forwardPropagation(X, parameters);
+    		
+    		// Cost function
+    		double cost = this.computeCost(cache.get("A2"), Y);
+    		
+    		// Backpropagation
+    		Map<String, Matrix> gradients = this.backwardPropagation(parameters, cache, X, Y);
+    		
+    		// Parameters update
+    		parameters = this.updateParameters(parameters, gradients, learningRate);
+    		
+    		// Print cost
+    		if (i % 500 == 0) {
+    			System.out.println("Cost after iteration "+i+": "+cost);
+    		}
+    	}
+    	
+    	return parameters;
+    }
+    
+    /*public static void main(String[] args) {
+    	
+    	Matrix Xt = new Matrix(2, 4);
+    	Matrix Yt = new Matrix(1, 4);
+    	
+    	Xt.data[0][0] = 1;
+    	Xt.data[1][0] = 1;
+    	Xt.data[0][1] = 0;
+    	Xt.data[1][1] = 0;
+    	Xt.data[0][2] = 1;
+    	Xt.data[1][2] = 0;
+    	Xt.data[0][3] = 0;
+    	Xt.data[1][3] = 1;
+    	
+    	Yt.data[0][0] = 1;
+    	Yt.data[0][1] = 1;
+    	Yt.data[0][2] = 0;
+    	Yt.data[0][3] = 0;
+    	
+    	Matrix X = new Matrix(2, 5000);
+    	for (int i = 0; i < X.rows; i++) {
+    		for (int j = 0; j < X.columns; j++) {
+    			X.data[i][j] = Xt.data[i][j % 4];
+    		}
+    	}
+    	
+    	Matrix Y = new Matrix(1, 5000);
+    	for (int i = 0; i < X.rows; i++) {
+            Y.data[0][i] = Yt.data[0][i % 4];
+    	}
+    	
+    	
+    	
+    	NeuralNetwork nn = new NeuralNetwork(X, Y, 2);
+    	Map<String, Matrix> parameters = nn.trainParameters(X, Y, 2, 5000, 1.0);
+    	
+    	
+    	
+    }*/
     
 }
