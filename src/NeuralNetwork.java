@@ -60,8 +60,7 @@ public class NeuralNetwork {
 		// Add m-1 (m = number of training examples) columns to parameters b1 and b2
 		// and fill them with values copied from the original column
 		// It allows us to broadcast b1 and b2 across larger Matrices and perform
-		// vectorized
-		// forward propagation on all the training examples
+		// vectorized forward propagation on all the training examples
 		Matrix b1m = new Matrix(b1.rows, X.columns);
 		Matrix b2m = new Matrix(b2.rows, X.columns);
 
@@ -123,7 +122,6 @@ public class NeuralNetwork {
 			Matrix Y) {
 		// number of examples
 		int m = X.columns;
-		// System.out.println(m);
 
 		Matrix W1 = parameters.get("W1");
 		Matrix W2 = parameters.get("W2");
@@ -217,12 +215,19 @@ public class NeuralNetwork {
 			parameters = this.updateParameters(parameters, gradients, learningRate);
 
 			// Print cost
-			if (i % 500 == 0) {
+			if (i % 1000 == 0) {
 				System.out.println("Cost after iteration " + i + ": " + cost);
 			}
 		}
 
 		return parameters;
+	}
+	
+	public Matrix predict(Map<String, Matrix> parameters, Matrix X) {
+		Map<String, Matrix> cache = this.forwardPropagation(X, parameters);
+		
+		Matrix predictions = cache.get("A2");
+		return predictions;
 	}
 
 	
@@ -241,13 +246,13 @@ public class NeuralNetwork {
 		X.data[0][3] = 0.0;
 		X.data[1][3] = 1.0;
 
-		Y.data[0][0] = 0.0;
-		Y.data[0][1] = 0.0;
-		Y.data[0][2] = 1.0;
-		Y.data[0][3] = 1.0;
+		Y.data[0][0] = 1.0;
+		Y.data[0][1] = 1.0;
+		Y.data[0][2] = 0.0;
+		Y.data[0][3] = 0.0;
 
 		NeuralNetwork nn = new NeuralNetwork(X, Y, 2);
-		Map<String, Matrix> parameters = nn.trainParameters(X, Y, 5, 50000, 5.0);
+		Map<String, Matrix> parameters = nn.trainParameters(X, Y, 2, 2000000, 5.0);
 
 		for (int i = 0; i < parameters.get("b1").rows; i++) {
 			System.out.println(parameters.get("b1").data[i][0]);
@@ -257,7 +262,14 @@ public class NeuralNetwork {
 			for (int j = 0; j < parameters.get("W1").columns; j++)
 				System.out.println(parameters.get("W1").data[i][j]);
 		}
-
+		
+		Matrix predictions = nn.predict(parameters, X);
+		
+		for (int i = 0; i < predictions.rows; i++) {
+			for (int j = 0; j < predictions.columns; j++) {
+				System.out.println(predictions.data[i][j]);
+			}
+		}
 	}
 
 }
