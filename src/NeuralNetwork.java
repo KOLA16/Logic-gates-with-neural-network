@@ -119,14 +119,14 @@ public class NeuralNetwork {
 		// dZ2 = A2 - Y
 		Matrix dZ2 = Matrix.subtract(A2, Y);
 		// dW2 = (1/m) * dZ2 o A1.T
-		Matrix dW2 = Matrix.multiply(1.0 / m, Matrix.multiply(dZ2, Matrix.transpose(A1)));
+		Matrix dW2 = Matrix.multiply(1.0 / m, Matrix.multiply(dZ2, A1.transpose()));
 		// db2 = (1/m) * columnVectorThatContainsSumOfEachRow(dZ2)
 		Matrix db2 = Matrix.multiply(1.0 / m, Matrix.sum(dZ2, 1));
 		// dZ1 = W2.T o dZ2 * A2 * (1 - A2)
-		Matrix dZ1 = Matrix.multiplyElementWise(Matrix.multiply(Matrix.transpose(this.W2), dZ2),
+		Matrix dZ1 = Matrix.multiplyElementWise(Matrix.multiply(W2.transpose(), dZ2),
 				Matrix.multiplyElementWise(A1, Matrix.subtract(ones, A1)));
 		// dW1 = (1/m) * dZ1 o X.T
-		Matrix dW1 = Matrix.multiply(1.0 / m, Matrix.multiply(dZ1, Matrix.transpose(X)));
+		Matrix dW1 = Matrix.multiply(1.0 / m, Matrix.multiply(dZ1, X.transpose()));
 		// db1 = (1/m) * columnVectorThatContainsSumOfEachRow(dZ1)
 		Matrix db1 = Matrix.multiply(1.0 / m, Matrix.sum(dZ1, 1));
 
