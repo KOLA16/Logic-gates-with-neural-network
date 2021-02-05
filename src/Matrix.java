@@ -11,6 +11,12 @@ public class Matrix {
 	int rows, columns;
 	double[][] data;
 
+	/**
+	 * Matrix constructor - need to provide number of rows and columns
+	 * that matrix will have. Matrix elements are stored in array called data
+	 * which dimensions are specified by provided rows and columns
+	 * 
+	 */
 	public Matrix(int rows, int columns) {
 		this.rows = rows;
 		this.columns = columns;
@@ -29,95 +35,162 @@ public class Matrix {
 		return matrix;
 	}
 
-	public Matrix add(double scalar) {
-		for (int i = 0; i < this.rows; i++) {
-			for (int j = 0; j < this.columns; j++) {
-				this.data[i][j] += scalar;
-			}
-		}
-		return this;
-	}
-
-	public static Matrix add(Matrix a, Matrix b) {
-		if (a.rows == b.rows && a.columns == b.columns) {
-			Matrix sum = new Matrix(a.rows, a.columns);
-			for (int i = 0; i < a.rows; i++) {
-				for (int j = 0; j < a.columns; j++) {
-					sum.data[i][j] = a.data[i][j] + b.data[i][j];
-				}
-			}
-			return sum;
-		} else {
-			System.out.println("INCORRECT DIMENSIONS");
-			return null;
-		}
-	}
-
-	public void subtract(double scalar) {
-		for (int i = 0; i < this.rows; i++) {
-			for (int j = 0; j < this.columns; j++) {
-				this.data[i][j] -= scalar;
-			}
-		}
-	}
-
-	public static Matrix subtract(Matrix a, Matrix b) {
-		if (a.rows == b.rows && a.columns == b.columns) {
-			Matrix difference = new Matrix(a.rows, a.columns);
-			for (int i = 0; i < a.rows; i++) {
-				for (int j = 0; j < a.columns; j++) {
-					difference.data[i][j] = a.data[i][j] - b.data[i][j];
-				}
-			}
-			return difference;
-		} else {
-			System.out.println("INCORRECT DIMENSIONS");
-			return null;
-		}
-	}
-
-	public static Matrix multiply(double scalar, Matrix a) {
-		Matrix temp = new Matrix(a.rows, a.columns);
+	
+	/**
+	 * Adds scalar value to each element in Matrix a
+	 * 
+	 * @param scalar value that is added to elements of matrix a 
+	 * @param a matrix to which scalar is added
+	 * @return a original matrix with updated elements
+	 * 
+	 */
+	public static Matrix add(double scalar, Matrix a) {
 		for (int i = 0; i < a.rows; i++) {
 			for (int j = 0; j < a.columns; j++) {
-				temp.data[i][j] = a.data[i][j] * scalar;
+				a.data[i][j] += scalar;
 			}
 		}
-		return temp;
+		return a;
 	}
 
+	/**
+	 * Adds elements of matrix a to corresponding elements of matrix b
+	 * 
+	 * @param a first matrix  
+	 * @param b second matrix
+	 * @return temp matrix of sums of corresponding elements from matrices a and b
+	 * 
+	 */
+	public static Matrix add(Matrix a, Matrix b) {
+		if (a.rows == b.rows && a.columns == b.columns) {
+			Matrix temp = new Matrix(a.rows, a.columns);
+			for (int i = 0; i < a.rows; i++) {
+				for (int j = 0; j < a.columns; j++) {
+					temp.data[i][j] = a.data[i][j] + b.data[i][j];
+				}
+			}
+			return temp;
+		} else {
+			System.out.println("INCORRECT DIMENSIONS IN MATRIX ADDITION");
+			return null;
+		}
+	}
+
+	
+	/**
+	 * Subtracts scalar value from each element in Matrix a
+	 * 
+	 * @param scalar value that is subtracted from matrix a 
+	 * @param a matrix from which scalar is subtracted
+	 * @return a original matrix with updated elements
+	 * 
+	 */
+	public static Matrix subtract(double scalar, Matrix a) {
+		for (int i = 0; i < a.rows; i++) {
+			for (int j = 0; j < a.columns; j++) {
+				a.data[i][j] -= scalar;
+			}
+		}
+		return a;
+	}
+
+	/**
+	 * Subtracts elements of matrix b from corresponding elements of matrix a
+	 * 
+	 * @param a first matrix  
+	 * @param b second matrix
+	 * @return temp matrix of differences between corresponding elements from matrices a and b
+	 * 
+	 */
+	public static Matrix subtract(Matrix a, Matrix b) {
+		if (a.rows == b.rows && a.columns == b.columns) {
+			Matrix temp = new Matrix(a.rows, a.columns);
+			for (int i = 0; i < a.rows; i++) {
+				for (int j = 0; j < a.columns; j++) {
+					temp.data[i][j] = a.data[i][j] - b.data[i][j];
+				}
+			}
+			return temp;
+		} else {
+			System.out.println("INCORRECT DIMENSIONS IN MATRIX SUBTRACTION");
+			return null;
+		}
+	}
+
+	/**
+	 * Multiplies each element of matrix a by a scalar value
+	 * 
+	 * @param scalar value by which elements of matrix a are multiplied
+	 * @param a matrix which elements are multiplied
+	 * @return a original matrix with updated elements
+	 * 
+	 */
+	public static Matrix multiply(double scalar, Matrix a) {
+		for (int i = 0; i < a.rows; i++) {
+			for (int j = 0; j < a.columns; j++) {
+				a.data[i][j] = a.data[i][j] * scalar;
+			}
+		}
+		return a;
+	}
+	
+	/**
+	 * Multiplies elements of matrix a by corresponding elements of matrix b
+	 * (element-wise matrix multiplicaton)
+	 * 
+	 * @param a first matrix  
+	 * @param b second matrix
+	 * @return temp resulting matrix of the element-wise multipilication
+	 *              of matrices a and b
+	 * 
+	 */
 	public static Matrix multiply(Matrix a, Matrix b) {
+		if (a.rows == b.rows && a.columns == b.columns) {
+			Matrix temp = new Matrix(a.rows, b.columns);
+			for (int i = 0; i < a.rows; i++) {
+				for (int j = 0; j < a.columns; j++) {
+					temp.data[i][j] = a.data[i][j] * b.data[i][j];
+				}
+			}
+			return temp;
+		} else {
+			System.out.println("INCORRECT DIMENSIONS IN MATRIX ELEMENT-WISE MULTIPLICATION");
+			return null;
+		}
+	}
+	
+	/**
+	 * Multiplies two matrices 
+	 * 
+	 * @param a first matrix  
+	 * @param b second matrix
+	 * @return temp resulting matrix which elements are dot products of 
+	 *              rows from matrix a and columns from matrix b
+	 * 
+	 */
+	public static Matrix dot(Matrix a, Matrix b) {
 		if (a.columns == b.rows) {
-			Matrix product = new Matrix(a.rows, b.columns);
+			Matrix temp = new Matrix(a.rows, b.columns);
 			for (int i = 0; i < a.rows; i++) {
 				for (int j = 0; j < b.columns; j++) {
 					for (int k = 0; k < a.columns; k++) {
-						product.data[i][j] += a.data[i][k] * b.data[k][j];
+						temp.data[i][j] += a.data[i][k] * b.data[k][j];
 					}
 				}
 			}
-			return product;
+			return temp;
 		} else {
-			System.out.println("INCORRECT DIMENSIONS");
+			System.out.println("INCORRECT DIMENSIONS IN MATRIX MULTIPLICATION");
 			return null;
 		}
 	}
 
-	public static Matrix multiplyElementWise(Matrix a, Matrix b) {
-		if (a.rows == b.rows && a.columns == b.columns) {
-			Matrix product = new Matrix(a.rows, b.columns);
-			for (int i = 0; i < a.rows; i++) {
-				for (int j = 0; j < a.columns; j++) {
-					product.data[i][j] = a.data[i][j] * b.data[i][j];
-				}
-			}
-			return product;
-		} else {
-			System.out.println("INCORRECT DIMENSIONS");
-			return null;
-		}
-	}
-
+	/**
+	 * Transposes matrix to which this method is applied
+	 * 
+	 * @return matrix with transposed elements of an original matrix
+	 * 
+	 */
 	public Matrix transpose() {
 		Matrix temp = new Matrix(this.columns, this.rows);
 		for (int i = 0; i < this.rows; i++) {
@@ -128,10 +201,13 @@ public class Matrix {
 		return temp;
 	}
 
-	public static double sigmoid(double z) {
-		return 1 / (1 + Math.exp(-z));
-	}
-
+	/**
+	 * Computes logistic function output for each element of matrix a
+	 * 
+	 * @param a matrix which elements are put into logistic function  
+	 * @return temp resulting matrix which elements are outputs of logistic function
+	 * 
+	 */
 	public static Matrix sigmoid(Matrix a) {
 		Matrix temp = new Matrix(a.rows, a.columns);
 		for (int i = 0; i < a.rows; i++) {
@@ -142,6 +218,14 @@ public class Matrix {
 		return temp;
 	}
 	
+	/**
+	 * Computes the natural logarithm of each element in matrix a
+	 * 
+	 * @param a matrix for which elements natural logarithm is computed  
+	 * @return temp resulting matrix which elements are natural logarithms
+	 *              of elements from matrix a
+	 * 
+	 */
 	public static Matrix log(Matrix a) {
 		Matrix temp = new Matrix(a.rows, a.columns);
 		for (int i = 0; i < a.rows; i++) {
@@ -152,6 +236,13 @@ public class Matrix {
 		return temp;
 	}
 	
+	/**
+	 * Sums up all elements in matrix a
+	 * 
+	 * @param a matrix which elements are summed up
+	 * @return temp double value which is a sum of all elements in matrix a
+	 * 
+	 */
 	public static double sum(Matrix a) {
 		double temp = 0;
 		for (int i = 0; i < a.rows; i++) {
@@ -162,10 +253,21 @@ public class Matrix {
 		return temp;
 	}
 	
+	/**
+	 * Sums up all elements in matrix a by rows or by columns
+	 * 
+	 * @param a matrix which elements are summed up
+	 * @param axis axis along which a sum is performed. If axis = 0 find sum of each column.
+	 *        If axis = 1 find sum of each rows
+	 * @return temp row vector with sum of each column if axis = 0 or column vector with
+	 *         sum of each row if axis = 1
+	 * 
+	 */
 	public static Matrix sum(Matrix a, int axis) {
 		Matrix temp = new Matrix(1,1);
 		
-		if (axis == 0) { // sum values in each column
+		// sum values in each column
+		if (axis == 0) { 
 			
 			temp = new Matrix(1, a.columns);
 			double sumCol;
@@ -177,8 +279,9 @@ public class Matrix {
 	            }  
 	            temp.data[0][i] = sumCol; 
 	        } 
-			
-		} else if (axis == 1) { // sum values in each row
+		
+		// sum values in each row
+		} else if (axis == 1) { 
 			
 			temp = new Matrix(a.rows, 1);
 			double sumRow;

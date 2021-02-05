@@ -61,11 +61,11 @@ public class NeuralNetwork {
 
 		// Implement forward propagation
 		// Z1 = W1 o X + b1m
-		Matrix Z1 = Matrix.add(Matrix.multiply(this.W1, X), b1m);
+		Matrix Z1 = Matrix.add(Matrix.dot(this.W1, X), b1m);
 		// A1 = sig(Z1)
 		Matrix A1 = Matrix.sigmoid(Z1);
 		// Z2 = W2 o A1 + b2m
-		Matrix Z2 = Matrix.add(Matrix.multiply(this.W2, A1), b2m);
+		Matrix Z2 = Matrix.add(Matrix.dot(this.W2, A1), b2m);
 		// A2 = sig(Z2)
 		Matrix A2 = Matrix.sigmoid(Z2);
 
@@ -92,9 +92,9 @@ public class NeuralNetwork {
 		}
 
 		// logprob1 = log(A2) * Y
-		Matrix logprob1 = Matrix.multiplyElementWise(Matrix.log(A2), Y);
+		Matrix logprob1 = Matrix.multiply(Matrix.log(A2), Y);
 		// logprob2 = (1 - Y) * log(1 - A2)
-		Matrix logprob2 = Matrix.multiplyElementWise(Matrix.subtract(ones, Y), Matrix.log(Matrix.subtract(ones, A2)));
+		Matrix logprob2 = Matrix.multiply(Matrix.subtract(ones, Y), Matrix.log(Matrix.subtract(ones, A2)));
 		// cost = -(1/m) * sum(log(A2) * Y + (1 - Y) * log(1 - A2)
 		double cost = -(1.0 / m) * Matrix.sum(Matrix.add(logprob1, logprob2));
 
@@ -119,14 +119,13 @@ public class NeuralNetwork {
 		// dZ2 = A2 - Y
 		Matrix dZ2 = Matrix.subtract(A2, Y);
 		// dW2 = (1/m) * dZ2 o A1.T
-		Matrix dW2 = Matrix.multiply(1.0 / m, Matrix.multiply(dZ2, A1.transpose()));
+		Matrix dW2 = Matrix.multiply(1.0 / m, Matrix.dot(dZ2, A1.transpose()));
 		// db2 = (1/m) * columnVectorThatContainsSumOfEachRow(dZ2)
 		Matrix db2 = Matrix.multiply(1.0 / m, Matrix.sum(dZ2, 1));
 		// dZ1 = W2.T o dZ2 * A2 * (1 - A2)
-		Matrix dZ1 = Matrix.multiplyElementWise(Matrix.multiply(W2.transpose(), dZ2),
-				Matrix.multiplyElementWise(A1, Matrix.subtract(ones, A1)));
+		Matrix dZ1 = Matrix.multiply(Matrix.dot(W2.transpose(), dZ2), Matrix.multiply(A1, Matrix.subtract(ones, A1)));
 		// dW1 = (1/m) * dZ1 o X.T
-		Matrix dW1 = Matrix.multiply(1.0 / m, Matrix.multiply(dZ1, X.transpose()));
+		Matrix dW1 = Matrix.multiply(1.0 / m, Matrix.dot(dZ1, X.transpose()));
 		// db1 = (1/m) * columnVectorThatContainsSumOfEachRow(dZ1)
 		Matrix db1 = Matrix.multiply(1.0 / m, Matrix.sum(dZ1, 1));
 
