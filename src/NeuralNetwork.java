@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -180,17 +181,9 @@ public class NeuralNetwork {
 				System.out.println("Cost after iteration " + i + ": " + cost);
 			}
 		}
-	}
-
-	public Map<String, Matrix> returnParameters() {
-		Map<String, Matrix> parameters = new HashMap<>();
-
-		parameters.put("W1", this.W1);
-		parameters.put("b1", this.W1);
-		parameters.put("W2", this.W1);
-		parameters.put("b2", this.W1);
-
-		return parameters;
+		
+		System.out.println("\nLearned parameters:\nW1 =\n"+ this.W1.toString() +"\nb1 =\n"+ this.b1.toString() +
+		 "\nW2 =\n" + this.W2.toString() + "\nb2 =\n"+ this.b2.toString());
 	}
 
 	public Matrix predict(Matrix X) {
