@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -186,10 +185,18 @@ public class NeuralNetwork {
 		 "\nW2 =\n" + this.W2.toString() + "\nb2 =\n"+ this.b2.toString());
 	}
 
-	public Matrix predict(Matrix X) {
+	public void predict(Matrix X) {
 		Map<String, Matrix> cache = this.forwardPropagation(X);
-
-		Matrix predictions = cache.get("A2");
-		return predictions;
+		Matrix outputs = cache.get("A2");
+		
+		Matrix predictions = new Matrix(outputs.rows, outputs.columns);
+		for (int i = 0; i < predictions.rows; i++) {
+			for (int j = 0; j < predictions.columns; j++) {
+				predictions.data[i][j] = Math.round(outputs.data[i][j]);
+			}
+		}
+		
+		System.out.println("Output layer activations (probability that output = 1): " + outputs.toString());
+		System.out.println("Predictions: " + predictions.toString());
 	}
 }
