@@ -12,9 +12,9 @@ public class Matrix {
 	double[][] data;
 
 	/**
-	 * Matrix constructor - need to provide number of rows and columns
-	 * that matrix will have. Matrix elements are stored in array called data
-	 * which dimensions are specified by provided rows and columns
+	 * Matrix constructor - need to provide number of rows and columns that matrix
+	 * will have. Matrix elements are stored in array called data which dimensions
+	 * are specified by provided rows and columns
 	 * 
 	 */
 	public Matrix(int rows, int columns) {
@@ -23,24 +23,37 @@ public class Matrix {
 		this.data = new double[rows][columns];
 	}
 
+	/**
+	 * Converts two-dimensional array arr into matrix
+	 * 
+	 * @param arr array to convert
+	 * @return matrix two-dimensional array converted to matrix
+	 * 
+	 */
 	public static Matrix toMatrix(double[][] arr) {
 		Matrix matrix = new Matrix(arr.length, arr[0].length);
 		matrix.data = arr;
 		return matrix;
 	}
-	
+
+	/**
+	 * Converts one-dimensional array arr into matrix
+	 * 
+	 * @param arr array to convert
+	 * @return matrix one-dimensional array converted to matrix
+	 * 
+	 */
 	public static Matrix toMatrix(double[] arr) {
 		Matrix matrix = new Matrix(1, arr.length);
 		matrix.data[0] = arr;
 		return matrix;
 	}
 
-	
 	/**
 	 * Adds scalar value to each element in Matrix a
 	 * 
-	 * @param scalar value that is added to elements of matrix a 
-	 * @param a matrix to which scalar is added
+	 * @param scalar value that is added to elements of matrix a
+	 * @param a      matrix to which scalar is added
 	 * @return a original matrix with updated elements
 	 * 
 	 */
@@ -56,7 +69,7 @@ public class Matrix {
 	/**
 	 * Adds elements of matrix a to corresponding elements of matrix b
 	 * 
-	 * @param a first matrix  
+	 * @param a first matrix
 	 * @param b second matrix
 	 * @return temp matrix of sums of corresponding elements from matrices a and b
 	 * 
@@ -76,12 +89,11 @@ public class Matrix {
 		}
 	}
 
-	
 	/**
 	 * Subtracts scalar value from each element in Matrix a
 	 * 
-	 * @param scalar value that is subtracted from matrix a 
-	 * @param a matrix from which scalar is subtracted
+	 * @param scalar value that is subtracted from matrix a
+	 * @param a      matrix from which scalar is subtracted
 	 * @return a original matrix with updated elements
 	 * 
 	 */
@@ -97,9 +109,10 @@ public class Matrix {
 	/**
 	 * Subtracts elements of matrix b from corresponding elements of matrix a
 	 * 
-	 * @param a first matrix  
+	 * @param a first matrix
 	 * @param b second matrix
-	 * @return temp matrix of differences between corresponding elements from matrices a and b
+	 * @return temp matrix of differences between corresponding elements from
+	 *         matrices a and b
 	 * 
 	 */
 	public static Matrix subtract(Matrix a, Matrix b) {
@@ -121,7 +134,7 @@ public class Matrix {
 	 * Multiplies each element of matrix a by a scalar value
 	 * 
 	 * @param scalar value by which elements of matrix a are multiplied
-	 * @param a matrix which elements are multiplied
+	 * @param a      matrix which elements are multiplied
 	 * @return a original matrix with updated elements
 	 * 
 	 */
@@ -133,15 +146,15 @@ public class Matrix {
 		}
 		return a;
 	}
-	
+
 	/**
 	 * Multiplies elements of matrix a by corresponding elements of matrix b
 	 * (element-wise matrix multiplicaton)
 	 * 
-	 * @param a first matrix  
+	 * @param a first matrix
 	 * @param b second matrix
-	 * @return temp resulting matrix of the element-wise multipilication
-	 *              of matrices a and b
+	 * @return temp resulting matrix of the element-wise multipilication of matrices
+	 *         a and b
 	 * 
 	 */
 	public static Matrix multiply(Matrix a, Matrix b) {
@@ -158,14 +171,14 @@ public class Matrix {
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Multiplies two matrices 
+	 * Multiplies two matrices
 	 * 
-	 * @param a first matrix  
+	 * @param a first matrix
 	 * @param b second matrix
-	 * @return temp resulting matrix which elements are dot products of 
-	 *              rows from matrix a and columns from matrix b
+	 * @return temp resulting matrix which elements are dot products of rows from
+	 *         matrix a and columns from matrix b
 	 * 
 	 */
 	public static Matrix dot(Matrix a, Matrix b) {
@@ -204,7 +217,7 @@ public class Matrix {
 	/**
 	 * Computes logistic function output for each element of matrix a
 	 * 
-	 * @param a matrix which elements are put into logistic function  
+	 * @param a matrix which elements are put into logistic function
 	 * @return temp resulting matrix which elements are outputs of logistic function
 	 * 
 	 */
@@ -217,13 +230,13 @@ public class Matrix {
 		}
 		return temp;
 	}
-	
+
 	/**
 	 * Computes the natural logarithm of each element in matrix a
 	 * 
-	 * @param a matrix for which elements natural logarithm is computed  
-	 * @return temp resulting matrix which elements are natural logarithms
-	 *              of elements from matrix a
+	 * @param a matrix for which elements natural logarithm is computed
+	 * @return temp resulting matrix which elements are natural logarithms of
+	 *         elements from matrix a
 	 * 
 	 */
 	public static Matrix log(Matrix a) {
@@ -235,7 +248,7 @@ public class Matrix {
 		}
 		return temp;
 	}
-	
+
 	/**
 	 * Sums up all elements in matrix a
 	 * 
@@ -252,50 +265,50 @@ public class Matrix {
 		}
 		return temp;
 	}
-	
+
 	/**
 	 * Sums up all elements in matrix a by rows or by columns
 	 * 
-	 * @param a matrix which elements are summed up
-	 * @param axis axis along which a sum is performed. If axis = 0 find sum of each column.
-	 *        If axis = 1 find sum of each rows
-	 * @return temp row vector with sum of each column if axis = 0 or column vector with
-	 *         sum of each row if axis = 1
+	 * @param a    matrix which elements are summed up
+	 * @param axis axis along which a sum is performed. If axis = 0 find sum of each
+	 *             column. If axis = 1 find sum of each rows
+	 * @return temp row vector with sum of each column if axis = 0 or column vector
+	 *         with sum of each row if axis = 1
 	 * 
 	 */
 	public static Matrix sum(Matrix a, int axis) {
-		Matrix temp = new Matrix(1,1);
-		
 		// sum values in each column
-		if (axis == 0) { 
-			
-			temp = new Matrix(1, a.columns);
+		if (axis == 0) {
+
+			Matrix temp = new Matrix(1, a.columns);
 			double sumCol;
-			
-			for(int i = 0; i < a.columns; i++){ 
+
+			for (int i = 0; i < a.columns; i++) {
 				sumCol = 0;
-	            for(int j = 0; j < a.rows; j++){  
-	                sumCol += a.data[j][i];  
-	            }  
-	            temp.data[0][i] = sumCol; 
-	        } 
-		
-		// sum values in each row
-		} else if (axis == 1) { 
-			
-			temp = new Matrix(a.rows, 1);
+				for (int j = 0; j < a.rows; j++) {
+					sumCol += a.data[j][i];
+				}
+				temp.data[0][i] = sumCol;
+			}
+			return temp;
+
+			// sum values in each row
+		} else if (axis == 1) {
+
+			Matrix temp = new Matrix(a.rows, 1);
 			double sumRow;
-			
-			for(int i = 0; i < a.rows; i++){  
+
+			for (int i = 0; i < a.rows; i++) {
 				sumRow = 0;
-		        for(int j = 0; j < a.columns; j++){  
-		            sumRow += a.data[i][j];  
-		        }  
-		        temp.data[i][0] = sumRow; 
-		    }  
+				for (int j = 0; j < a.columns; j++) {
+					sumRow += a.data[i][j];
+				}
+				temp.data[i][0] = sumRow;
+			}
+			return temp;
+		} else {
+			return null;
 		}
-		
-		return temp;
 	}
 
 }
