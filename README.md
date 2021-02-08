@@ -1,1 +1,1 @@
-# XNOR-operator
+# Logic-gates-with-neural-network
