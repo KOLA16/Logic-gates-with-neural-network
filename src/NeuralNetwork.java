@@ -266,7 +266,7 @@ public class NeuralNetwork {
 			}
 		}
 
-		System.out.println("Output layer activations (probability that output = 1): " + outputs.toString());
-		System.out.println("Predictions: " + predictions.toString());
+		System.out.println("Output layer activations (probability that output = 1):\n" + outputs.toString());
+		System.out.println("Predictions:\n" + predictions.toString());
 	}
 }
