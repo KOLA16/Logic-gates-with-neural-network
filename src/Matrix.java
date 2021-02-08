@@ -49,18 +49,6 @@ public class Matrix {
 		return matrix;
 	}
 	
-	@Override
-	public String toString() {
-		String str = "";
-		for (int i = 0; i < this.rows; i++) {
-			for (int j = 0;  j < this.columns; j++) {
-				str += this.data[i][j] + " ";
-			}
-			str += "\n";
-		}
-		return str;
-	}
-
 	/**
 	 * Adds scalar value to each element in Matrix a
 	 * 
@@ -321,6 +309,18 @@ public class Matrix {
 		} else {
 			return null;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		String str = "";
+		for (int i = 0; i < this.rows; i++) {
+			for (int j = 0;  j < this.columns; j++) {
+				str += this.data[i][j] + " ";
+			}
+			str += "\n";
+		}
+		return str;
 	}
 
 }
