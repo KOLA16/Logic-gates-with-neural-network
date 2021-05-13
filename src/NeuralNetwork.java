@@ -63,28 +63,28 @@ public class NeuralNetwork {
 		// and fill them with values copied from the original vector
 		// It allows us to broadcast b1 and b2 across larger Matrices and perform
 		// vectorized forward propagation on all the training examples
-		Matrix b1m = new Matrix(this.b1.rows, X.columns);
-		Matrix b2m = new Matrix(this.b2.rows, X.columns);
+		Matrix b1m = new Matrix(b1.rows, X.columns);
+		Matrix b2m = new Matrix(b2.rows, X.columns);
 
 		for (int i = 0; i < b1m.rows; i++) {
 			for (int j = 0; j < b1m.columns; j++) {
-				b1m.data[i][j] = this.b1.data[i][0];
+				b1m.data[i][j] = b1.data[i][0];
 			}
 		}
 
 		for (int i = 0; i < b2m.rows; i++) {
 			for (int j = 0; j < b2m.columns; j++) {
-				b2m.data[i][j] = this.b2.data[i][0];
+				b2m.data[i][j] = b2.data[i][0];
 			}
 		}
 
 		// Implement forward propagation
 		// Z1 = W1 o X + b1m
-		Matrix Z1 = Matrix.add(Matrix.dot(this.W1, X), b1m);
+		Matrix Z1 = Matrix.add(Matrix.dot(W1, X), b1m);
 		// A1 = sig(Z1)
 		Matrix A1 = Matrix.sigmoid(Z1);
 		// Z2 = W2 o A1 + b2m
-		Matrix Z2 = Matrix.add(Matrix.dot(this.W2, A1), b2m);
+		Matrix Z2 = Matrix.add(Matrix.dot(W2, A1), b2m);
 		// A2 = sig(Z2)
 		Matrix A2 = Matrix.sigmoid(Z2);
 
@@ -196,13 +196,13 @@ public class NeuralNetwork {
 		Matrix db2 = gradients.get("db2");
 
 		// W1 = W1 - learningRate * dW1
-		this.W1 = Matrix.subtract(this.W1, Matrix.multiply(learningRate, dW1));
+		W1 = Matrix.subtract(W1, Matrix.multiply(learningRate, dW1));
 		// b1 = b1 - learningRate * db1
-		this.b1 = Matrix.subtract(this.b1, Matrix.multiply(learningRate, db1));
+		b1 = Matrix.subtract(b1, Matrix.multiply(learningRate, db1));
 		// W2 = W2 - learningRate * dW2
-		this.W2 = Matrix.subtract(this.W2, Matrix.multiply(learningRate, dW2));
+		W2 = Matrix.subtract(W2, Matrix.multiply(learningRate, dW2));
 		// b2 = b2 - learningRate * db2
-		this.b2 = Matrix.subtract(this.b2, Matrix.multiply(learningRate, db2));
+		b2 = Matrix.subtract(b2, Matrix.multiply(learningRate, db2));
 	}
 
 	/**
@@ -221,22 +221,21 @@ public class NeuralNetwork {
 	 */
 	public void trainParameters(Matrix X, Matrix Y, int iterations, double learningRate) {
 
-		// Initialize parameters
-		this.initializeParameters();
+		initializeParameters();
 
 		// Gradient descent
 		for (int i = 0; i <= iterations; i++) {
 			// Forward propagation
-			Map<String, Matrix> cache = this.forwardPropagation(X);
+			Map<String, Matrix> cache = forwardPropagation(X);
 
 			// Cost function
-			double cost = this.computeCost(cache.get("A2"), Y);
+			double cost = computeCost(cache.get("A2"), Y);
 
 			// Backpropagation
-			Map<String, Matrix> gradients = this.backwardPropagation(cache, X, Y);
+			Map<String, Matrix> gradients = backwardPropagation(cache, X, Y);
 
 			// Parameters update
-			this.updateParameters(gradients, learningRate);
+			updateParameters(gradients, learningRate);
 
 			// Print cost
 			if (i % 1000 == 0) {
@@ -244,8 +243,8 @@ public class NeuralNetwork {
 			}
 		}
 
-		System.out.println("\nLearned parameters:\nW1 =\n" + this.W1.toString() + "\nb1 =\n" + this.b1.toString()
-				+ "\nW2 =\n" + this.W2.toString() + "\nb2 =\n" + this.b2.toString());
+		System.out.println("\nLearned parameters:\nW1 =\n" + W1.toString() + "\nb1 =\n" + b1.toString()
+				+ "\nW2 =\n" + W2.toString() + "\nb2 =\n" + b2.toString());
 	}
 
 	/**

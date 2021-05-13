@@ -10,18 +10,18 @@ public class Driver {
 
 		public static void main(String[] args) {
             // Initialize hyperparameters
-			int hiddenUnits = 5;
-			int iterations = 10000;
-			double learningRate = 4.0;
+			final int hiddenUnits = 5;
+			final int iterations = 10000;
+			final double learningRate = 4.0;
 			
 			// Truth tables
-			double[][] input = {{1.0, 0.0, 1.0, 0.0}, 
-					            {1.0, 0.0, 0.0, 1.0}};
+			final double[][] input = {{1.0, 0.0, 1.0, 0.0}, 
+					            	  {1.0, 0.0, 0.0, 1.0}};
 			    
-			double[] xnorLabels = {1.0, 1.0, 0.0, 0.0};
-			double[] xorLabels = {0.0, 0.0, 1.0, 1.0};
-			double[] norLabels = {0.0, 1.0, 0.0, 0.0};
-			double[] nandLabels = {0.0, 1.0, 1.0, 1.0};
+			final double[] xnorLabels = {1.0, 1.0, 0.0, 0.0};
+			final double[] xorLabels = {0.0, 0.0, 1.0, 1.0};
+			final double[] norLabels = {0.0, 1.0, 0.0, 0.0};
+			final double[] nandLabels = {0.0, 1.0, 1.0, 1.0};
 			
 			Matrix X = Matrix.toMatrix(input);
 			

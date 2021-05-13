@@ -205,10 +205,10 @@ public class Matrix {
 	 * 
 	 */
 	public Matrix transpose() {
-		Matrix temp = new Matrix(this.columns, this.rows);
-		for (int i = 0; i < this.rows; i++) {
-			for (int j = 0; j < this.columns; j++) {
-				temp.data[j][i] = this.data[i][j];
+		Matrix temp = new Matrix(columns, rows);
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				temp.data[j][i] = data[i][j];
 			}
 		}
 		return temp;
@@ -314,9 +314,9 @@ public class Matrix {
 	@Override
 	public String toString() {
 		String str = "";
-		for (int i = 0; i < this.rows; i++) {
-			for (int j = 0;  j < this.columns; j++) {
-				str += this.data[i][j] + " ";
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0;  j < columns; j++) {
+				str += data[i][j] + " ";
 			}
 			str += "\n";
 		}
