@@ -9,6 +9,7 @@
 public class Driver {
 
 		public static void main(String[] args) {
+			
             // Initialize hyperparameters
 			final int hiddenUnits = 5;
 			final int iterations = 10000;
@@ -25,7 +26,7 @@ public class Driver {
 			
 			Matrix X = Matrix.toMatrix(input);
 			
-			// ~~~~~~ XNOR gate ~~~~~~ 
+			/* ~~~~~~ XNOR gate ~~~~~~ */
 			Matrix Y = Matrix.toMatrix(xnorLabels);
 			
 			System.out.println("PERFORM XNOR GATE LEARNING:\n");
@@ -36,7 +37,8 @@ public class Driver {
 			System.out.println("Input:\n" + X.toString());
 			nn.predict(X);
 			
-			/*// ~~~~~~ XOR gate ~~~~~~ 
+			/* ~~~~~~ XOR gate ~~~~~~ */
+			/*
 		    Matrix Y = Matrix.toMatrix(xorLabels);
 			
 			System.out.println("PERFORM XOR GATE LEARNING:\n");
@@ -45,9 +47,11 @@ public class Driver {
 			nn.trainParameters(X, Y, iterations, learningRate);
 			
 			System.out.println("Input:\n" + X.toString());
-			nn.predict(X);*/
+			nn.predict(X);
+			*/
 			
-			/*// ~~~~~~ NOR gate ~~~~~~ 
+			/* ~~~~~~ NOR gate ~~~~~~ */
+			/*
 			Matrix Y = Matrix.toMatrix(norLabels);
 			
 			System.out.println("PERFORM NOR GATE LEARNING:\n");
@@ -56,9 +60,11 @@ public class Driver {
 			nn.trainParameters(X, Y, iterations, learningRate);
 			
 			System.out.println("Input:\n" + X.toString());
-			nn.predict(X);*/
+			nn.predict(X);
+			*/
 			
-			/*// ~~~~~~ NAND gate ~~~~~~ 
+			/* ~~~~~~ NAND gate ~~~~~~ */
+			/*
 			Matrix Y = Matrix.toMatrix(nandLabels);
 			
 			System.out.println("PERFORM NAND GATE LEARNING:\n");
@@ -67,6 +73,7 @@ public class Driver {
 			nn.trainParameters(X, Y, iterations, learningRate);
 			
 			System.out.println("Input:\n" + X.toString());
-			nn.predict(X);*/
+			nn.predict(X);
+			*/
 		}
 }
